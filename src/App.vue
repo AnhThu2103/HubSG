@@ -1,9 +1,12 @@
 <template>
-  <header>
-    <router-link to="/login">Login</router-link>
-    <router-link to="/reg">Register</router-link>
-    <router-link to="/fp">Forgot Pass</router-link>
-  </header>
+  <div>
+    <header>
+      <router-link to="/login">Login</router-link>
+      <router-link to="/reg">Register</router-link>
+      <router-link to="/fp">Forgot Pass</router-link>
+    </header>
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -13,7 +16,5 @@ export default {
 </script>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
+
 </style>

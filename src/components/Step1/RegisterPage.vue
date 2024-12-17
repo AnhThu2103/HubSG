@@ -4,87 +4,94 @@
 		       <h1>Đăng Ký</h1>
 			<div class="header-bottom">
 				<div class="header-right w3agile">
-					
+
 					<div class="header-left-bottom agileinfo">
-						
-					 <form name="ReForm" action="#" method="post" onsubmit="return validateForm()">
-						<input type="text"  value="User name" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Tên đăng nhập';}"/>
-                        <input type="text"  value="Email" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'example@gmai.com';}"/>
-					<input type="password"  value="Password" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Mật khẩu';}"/>
-                    <input type="password"  value="Password" name="Resetpassword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nhập lại mật khẩu';}"/>
-						
-					   
+
+					 <form @submit.prevent="validateForm">
+						<input type="text"  v-model="username" placeholder="Tên Đăng Nhập"/>
+           <input type="text"  v-model="email" placeholder="Email"/>
+					<input type="password"  v-model="password" placeholder="Nhập mật khẩu"/>
+          <input type="password"  v-model="resetpass" placeholder="Nhập lại mật khẩu"/>
+
+
 						<input type="submit" value="Đăng ký">
-					</form>	
+					</form>
 					<div class="header-left-top">
 						<div class="sign-up"> <h2>or</h2> </div>
-					
+
 					</div>
 					<div class="header-social wthree">
 							<a href="https://www.facebook.com/?locale2=vi_VN&_rdr" class="face"><h5>Facebook</h5></a>
 							<a href="https://x.com/i/flow/login" class="twitt"><h5>Twitter</h5></a>
 						</div>
-						
+
 				</div>
 				</div>
-			  
+
 			</div>
 		</div>
 </div>
   </template>
-  
-  <script>
-  export default {
-    name: "RegisterPage",
-    
-  };
-  function validateForm() {
-    var username = document.forms["ReForm"]["name"].value;
-    var email = document.forms["ReForm"]["email"].value;
-    var password = document.forms["ReForm"]["password"].value;
-    var resetpass = document.forms["ReForm"]["Resetpassword"].value;
 
-    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+<script>
+export default {
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+      resetpass: "",
+    };
+  },
+  methods: {
+    validateForm() {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
 
-    // Biểu thức chính quy để kiểm tra mật khẩu có ít nhất một ký tự và một số
-    var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
-    if(username == "" || password == ""|| email =="" || resetpass == "")
-    {
+      // Check if any of the fields are empty
+      if (this.username === "" || this.email === "" || this.password === "" || this.resetpass === "") {
         alert("Không được để trống");
         return false;
-    }
+      }
 
-    if (username == "" || username == "Tên đăng ký") {
+      // Validate username
+      if (this.username === "Tên đăng ký") {
         alert("Tên ký không được để trống");
         return false;
-    }
-    if(!emailRegex.test(email))
-    {
+      }
+
+      // Validate email format
+      if (!emailRegex.test(this.email)) {
         alert("Email phải đúng định dạng");
         return false;
-    }
+      }
 
-    if (password == "" || password == "Mật khẩu" ) {
+      // Validate password
+      if (this.password === "" || this.password === "Mật khẩu") {
         alert("Mật khẩu không được để trống!");
         return false;
-    }
-    if(!passwordRegex.test(password))
-    {
+      }
+
+      // Validate password strength
+      if (!passwordRegex.test(this.password)) {
         alert("Mật khẩu phải chứ chữ và số");
         return false;
-    }
-    if(password != resetpass)
-    {
+      }
+
+      // Check if password and reset password match
+      if (this.password !== this.resetpass) {
         alert("Password và ResetPass không đúng");
         return false;
-    }
+      }
 
-    // If both fields are filled, redirect to YouTube
-    window.location.href = "Login.html";
-    return false; 
-}
-  </script>
-  
+      // If validation passes, redirect to Login page
+      this.$router.push("/login");
+      return false; // Prevent form submission
+    },
+  },
+};
+</script>
+
   <style scoped>
   html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
 article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
@@ -117,13 +124,13 @@ background-attachment: fixed;
     -moz-background-size: cover;
     -o-background-size: cover;
 padding:0;
-margin:0; 
+margin:0;
 font-family: 'Roboto Condensed', sans-serif;
  font-size: 100%;
-}  
+}
 h1,h2,h3,h4,h5,h6{
-	margin:0;			   
-}	
+	margin:0;
+}
 p{
 	margin:0;
 }
@@ -154,7 +161,7 @@ a:hover{
 }
 .header-main h1 {
     font-size: 64px;
-    color: #FFFFFF;
+    color: #0c0b0b;
     text-align: center;
     padding-bottom: 0.8em;
 }
@@ -162,19 +169,19 @@ a:hover{
     margin: 2em 0;
 }
 span.hed-white {
-  color: #fff;
+  color: #0a0a0a;
 }
 .style1 {
   text-align: right;
   padding: 60px 0px 40px 0px;
 }
 .header-left {
-  background: #fff;
+  background: #0a0a0a;
   padding: 0px;
 }
 .sign-up h2 {
     font-size: 22px;
-    color: #fff;
+    color: #090909;
     font-family: 'Roboto Condensed', sans-serif;
     text-align: center;
     background:#ff3366;
@@ -204,10 +211,10 @@ span.login-color {
     outline: none;
     font-size: 15px;
     font-weight: 400;
-    color: #fff;
+    color: #0f0e0e;
     padding: 12px 13px 20px 44px;
 	border:none;
-    border-bottom:1px solid #fff;
+    border-bottom:1px solid #050505;
     width: 87%;
     margin: 0 0 20px;
     display: inline-block;
@@ -217,9 +224,9 @@ span.login-color {
   outline: none;
   font-size: 15px;
   font-weight: 400;
-  color: #fff;
+  color: #080808;
   border:none;
-  border-bottom:1px solid #fff;
+  border-bottom:1px solid #050505;
   padding: 12px 13px 20px 44px;
  width: 87%;
    margin: 0 0 20px;
@@ -227,7 +234,7 @@ span.login-color {
 }
 .header-left-bottom input[type="submit"] {
     background: #ff3366;
-    color: #FFF;
+    color: #0e0e0e;
     font-size: 26px;
     padding: 0.3em 1.2em;
     width: 100%;
@@ -262,7 +269,7 @@ h5 {
 }
 .header-social a.face{
   background:url(../images/fac.png)no-repeat 12px 9px #3B62A3;
-  color: #FFF;
+  color: #101010;
   font-size: 16px;
   font-weight: 400;
   padding: 0 2em;
@@ -287,7 +294,7 @@ h5 {
 /*-- agileits --*/
 .header-social a.twitt {
   background:url(../images/twitter.png)no-repeat 12px 9px #19B0E7;
-  color: #FFF;
+  color: #101010;
   font-size: 16px;
   font-weight: 400;
   padding: 0 2.5em;
@@ -362,7 +369,7 @@ span.sin-color {
 .header-bottom-strip {
   margin: 60px 0px 0px 0px;
    padding: 40px 20px 30px 40px;
-  background: #fff;
+  background: #151515;
    margin:70px 0px 0px 0px;
    position:relative;
 }
@@ -376,7 +383,7 @@ span.sin-color {
 	margin: 0px 0px 15px 0px;
 	width: 30%;
 	-webkit-appearance: none;
-	background:#eeeeee;
+	background:#0b0b0b;
 }
 .strip-left input.user {
 /*-- agileits --*/
@@ -394,10 +401,10 @@ span.sin-color {
 	margin: 0px 0px 15px 0px;
 	width: 78%;
 	-webkit-appearance: none;
-	background:#eeeeee;
+	background:#080808;
 }
 .strip-left input.lock {
-   background: url(../images/lock.png)no-repeat 10px 10px #FBFBFB;
+   background: url(../images/lock.png)no-repeat 10px 10px #0a0a0a;
   display: block;
 }
 .strip-left {
@@ -418,7 +425,7 @@ span.sin-color {
   font-family: 'Roboto Condensed', sans-serif;
 }
 .strip-left input[type="submit"] {
-  color: #FFF;
+  color: #070707;
   font-size: 18px;
   padding: 0.4em 1.2em;
   width:100%;
@@ -521,7 +528,7 @@ span.sin-color {
   height: 0;
   bottom: -20px;
   border-right: 20px solid rgba(0, 0, 0, 0);
-  border-bottom: 20px solid #fff;
+  border-bottom: 20px solid #070707;
   border-left: 20px solid rgba(0, 0, 0, 0);
   top: -9%;
   right: 6%;
@@ -557,7 +564,7 @@ span.sin-color {
     margin-top: 0.2em;
 }
 .forgot h6 a{
-    color:#efe8e8;
+    color:#0e0d0d;
 }
 .forgot h6 a:hover{
     color:#ff3366;
@@ -584,7 +591,7 @@ span.sin-color {
   position: relative;
   font-size: 0.95em;
   font-weight: normal;
-  color:#efe8e8;
+  color:#0b0b0b;
   padding: 0em 0.5em 0em 2.5em;
 }
 .checkbox i {
@@ -595,7 +602,7 @@ span.sin-color {
     width: 18px;
     height: 18px;
     outline: none;
-    background: #fff;
+    background: #101010;
     border: 1px solid #6A67CE;
 }
 .checkbox input + i:after {
@@ -639,12 +646,12 @@ span.sin-color {
 .copyright p {
   font-size: 16px;
   font-weight: 400;
-  color: #fff;
+  color: #0a0909;
 }
 .copyright p a{
   font-size: 16px;
   font-weight: 400;
-  color: #fff;
+  color: #131212;
 }
 .copyright p a:hover{
 	color:#ff3366;
@@ -655,7 +662,7 @@ span.sin-color {
 
 @media(max-width:1440px){
 .header-main {
-    width: 33%;	
+    width: 33%;
 }
 }
 @media(max-width:1366px){
@@ -666,7 +673,7 @@ span.sin-color {
 @media(max-width:1280px){
 .header-main {
     width: 38%;
-}	
+}
 }
 @media(max-width:1024px){
 .header-main {
@@ -674,7 +681,7 @@ span.sin-color {
 }
 .header-main h1 {
     font-size: 63px;
-}	
+}
 }
 @media(max-width:991px){
 .header-main {
@@ -830,7 +837,7 @@ span.sin-color {
     width: 85%;
 }
 .header-main {
-    padding: 25px 0px 15px 0px;	
+    padding: 25px 0px 15px 0px;
 }
 .header-left-bottom input[type="text"] {
     padding: 12px 13px 15px 44px;
@@ -884,4 +891,3 @@ span.sin-color {
 }
 }
   </style>
-  

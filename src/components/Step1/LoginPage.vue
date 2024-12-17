@@ -4,72 +4,104 @@
 		       <h1>Đăng Nhập</h1>
 			<div class="header-bottom">
 				<div class="header-right w3agile">
-					
+
 					<div class="header-left-bottom agileinfo">
-						
-					 <form name="loginForm" action="#" method="post" onsubmit="return validateForm()">
-						<input type="text" value="Tên đăng nhập" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Tên đăng nhập';}" />
-						<input type="password" value="Mật khẩu" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Mật khẩu';}" />
+
+					 <form name="loginForm" @submit.prevent="validateForm">
+            <input type="text"  v-model="username" placeholder="Tên đăng nhập" @focus="clearUsername" @blur="resetUsername"/>
+              <input
+                type="password" v-model="password" placeholder="Mật khẩu" @focus="clearPassword" @blur="resetPassword" />
 						<div class="remember">
-			           
+
 						 <div class="forgot">
-						 	<h6><a href="Forgotpass.html">Quên mật khẩu</a></h6>
+						 	<h6> <router-link to="/fp">Forgot Pass</router-link></h6>
 						 </div>
 						<div class="clear"> </div>
 					  </div>
-					   
+
 						<input type="submit" value="Đăng Nhập">
-					</form>	
+					</form>
 					<div class="header-left-top">
 						<div class="sign-up"> <h2>or</h2> </div>
-					
+
 					</div>
 					<div class="header-social wthree">
 							<a href="#" class="face"><h5>Facebook</h5></a>
 							<a href="#" class="twitt"><h5>Twitter</h5></a>
 						</div>
-						
+
 				</div>
 				</div>
-			  
+
 			</div>
 		</div>
 </div>
 
 </template>
 <script>
-  export default {
-    name: "LoginPage",
-    
-  };
-  function validateForm() {
-    var username = document.forms["loginForm"]["name"].value;
-    var password = document.forms["loginForm"]["password"].value;
+import banner1 from '@/components/images/banner1.jpg';
 
-    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+export default {
+  name: "LoginPage",
+  data() {
+    return {
+      banner1,  // Your image import
+    };
+  },
 
-    // Biểu thức chính quy để kiểm tra mật khẩu có ít nhất một ký tự và một số
-    var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+  methods: {
+    // Clear placeholder text when focus
+    clearUsername() {
+      if (this.username === "Tên đăng nhập") {
+        this.username = "";
+      }
+    },
+    clearPassword() {
+      if (this.password === "Mật khẩu") {
+        this.password = "";
+      }
+    },
+    // Reset placeholder text if the field is empty on blur
+    resetUsername() {
+      if (this.username === "") {
+        this.username = "Tên đăng nhập";
+      }
+    },
+    resetPassword() {
+      if (this.password === "") {
+        this.password = "Mật khẩu";
+      }
+    },
+    validateForm() {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
 
-    if (username == "" || username == "Tên đăng nhập"|| !emailRegex.test(username)) {
+      // Validate username
+      if (!this.username || this.username === "Tên đăng nhập" || !emailRegex.test(this.username)) {
         alert("Tên đăng nhập không được để trống và phải đúng định dạng");
         return false;
-    }
+      }
 
-    if (password == "" || password == "Mật khẩu" ) {
+      // Validate password
+      if (!this.password || this.password === "Mật khẩu") {
         alert("Mật khẩu không được để trống!");
         return false;
-    }
-    if(!passwordRegex.test(password))
-    {
-        alert("Mật khẩu phải chứ chữ và số");
-        return false;
-    }
+      }
 
-    // If both fields are filled, redirect to YouTube
-    window.location.href = "https://www.youtube.com";
-    return false; 
-}
+      if (!passwordRegex.test(this.password)) {
+        alert("Mật khẩu phải chứa chữ và số");
+        return false;
+      }
+
+      // If all validations pass, redirect to YouTube
+      window.location.href = "https://www.youtube.com";
+      return false; // Prevent default form submission
+    },
+  },
+
+};
+
+
 </script>
 
 <style scoped>
@@ -96,7 +128,7 @@ nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%;}
 /*end reset*/
 body{
-background: url(../images/banner1.jpg)no-repeat;
+background: #000;
 background-attachment: fixed;
     background-position: center;
     background-size: cover;
@@ -104,13 +136,13 @@ background-attachment: fixed;
     -moz-background-size: cover;
     -o-background-size: cover;
 padding:0;
-margin:0; 
+margin:0;
 font-family: 'Roboto Condensed', sans-serif;
  font-size: 100%;
-}  
+}
 h1,h2,h3,h4,h5,h6{
-	margin:0;			   
-}	
+	margin:0;
+}
 p{
 	margin:0;
 }
@@ -141,7 +173,7 @@ a:hover{
 }
 .header-main h1 {
     font-size: 64px;
-    color: #FFFFFF;
+    color: #0e0d0d;
     text-align: center;
     padding-bottom: 0.8em;
 }
@@ -149,19 +181,19 @@ a:hover{
     margin: 2em 0;
 }
 span.hed-white {
-  color: #fff;
+  color: #131212;
 }
 .style1 {
   text-align: right;
   padding: 60px 0px 40px 0px;
 }
 .header-left {
-  background: #fff;
+  background: #131212;
   padding: 0px;
 }
 .sign-up h2 {
     font-size: 22px;
-    color: #fff;
+    color: #111010;
     font-family: 'Roboto Condensed', sans-serif;
     text-align: center;
     background:#ff3366;
@@ -187,26 +219,26 @@ span.login-color {
   font-weight: 700;
 }
 .header-left-bottom input[type="text"] {
-    background: url(../images/m.png)no-repeat 0px 5px;
+    background: url(../HubSG/images/m.png)no-repeat 0px 5px;
     outline: none;
     font-size: 15px;
     font-weight: 400;
-    color: #fff;
+    color: #0b0a0a;
     padding: 12px 13px 20px 44px;
 	border:none;
-    border-bottom:1px solid #fff;
+    border-bottom:1px solid #040404;
     width: 87%;
     margin: 0 0 20px;
     display: inline-block;
 }
 .header-left-bottom input[type="password"]{
-   background: url(../images/l.png)no-repeat 0px 5px;
+   background: url(../HubSG/images/l.png)no-repeat 0px 5px;
   outline: none;
   font-size: 15px;
   font-weight: 400;
-  color: #fff;
+  color: #0a0909;
   border:none;
-  border-bottom:1px solid #fff;
+  border-bottom:1px solid #111010;
   padding: 12px 13px 20px 44px;
  width: 87%;
    margin: 0 0 20px;
@@ -214,7 +246,7 @@ span.login-color {
 }
 .header-left-bottom input[type="submit"] {
     background: #ff3366;
-    color: #FFF;
+    color: #0d0d0d;
     font-size: 26px;
     padding: 0.3em 1.2em;
     width: 100%;
@@ -244,12 +276,12 @@ span.login-color {
     text-align: center;
 }
 h5 {
-    border-left: 1px dotted #c3c3c3;
+    border-left: 1px dotted #0d0d0d;
     padding: 0.5em;
 }
 .header-social a.face{
-  background:url(../images/fac.png)no-repeat 12px 9px #3B62A3;
-  color: #FFF;
+  background:url(../HubSG/images/fac.png)no-repeat 12px 9px #3B62A3;
+  color: #050505;
   font-size: 16px;
   font-weight: 400;
   padding: 0 2em;
@@ -265,7 +297,7 @@ h5 {
   font-family: 'Roboto Condensed', sans-serif;
 }
 .header-social a.face:hover{
-	 background:url(../images/fac.png)no-repeat 12px 9px #0E387C;
+	 background:url(../HubSG/images/fac.png)no-repeat 12px 9px #0E387C;
 	 transition: 0.5s all;
   -webkit-transition: 0.5s all;
   -moz-transition: 0.5s all;
@@ -273,8 +305,8 @@ h5 {
 }
 /*-- agileits --*/
 .header-social a.twitt {
-  background:url(../images/twitter.png)no-repeat 12px 9px #19B0E7;
-  color: #FFF;
+  background:url(../HubSG/images/twitter.png)no-repeat 12px 9px #19B0E7;
+  color: #080808;
   font-size: 16px;
   font-weight: 400;
   padding: 0 2.5em;
@@ -349,7 +381,7 @@ span.sin-color {
 .header-bottom-strip {
   margin: 60px 0px 0px 0px;
    padding: 40px 20px 30px 40px;
-  background: #fff;
+  background: #090909;
    margin:70px 0px 0px 0px;
    position:relative;
 }
@@ -367,7 +399,7 @@ span.sin-color {
 }
 .strip-left input.user {
 /*-- agileits --*/
- background:url(../images/user.png)no-repeat 10px 9px #FBFBFB;
+ background:url(../images/user.png)no-repeat 10px 9px #070707;
   display: block;
 }
 
@@ -381,10 +413,10 @@ span.sin-color {
 	margin: 0px 0px 15px 0px;
 	width: 78%;
 	-webkit-appearance: none;
-	background:#eeeeee;
+	background:#090909;
 }
 .strip-left input.lock {
-   background: url(../images/lock.png)no-repeat 10px 10px #FBFBFB;
+   background: url(../images/lock.png)no-repeat 10px 10px #050505;
   display: block;
 }
 .strip-left {
@@ -405,7 +437,7 @@ span.sin-color {
   font-family: 'Roboto Condensed', sans-serif;
 }
 .strip-left input[type="submit"] {
-  color: #FFF;
+  color: #0d0d0d;
   font-size: 18px;
   padding: 0.4em 1.2em;
   width:100%;
@@ -508,7 +540,7 @@ span.sin-color {
   height: 0;
   bottom: -20px;
   border-right: 20px solid rgba(0, 0, 0, 0);
-  border-bottom: 20px solid #fff;
+  border-bottom: 20px solid #080808;
   border-left: 20px solid rgba(0, 0, 0, 0);
   top: -9%;
   right: 6%;
@@ -523,7 +555,7 @@ span.sin-color {
 }
 .strip-sign-up h3 {
   font-size: 21px;
-  color: #fff;
+  color: #0a0a0a;
   margin: 0px;
   font-family: 'Roboto Condensed', sans-serif;
 }
@@ -544,7 +576,7 @@ span.sin-color {
     margin-top: 0.2em;
 }
 .forgot h6 a{
-    color:#efe8e8;
+    color:#080808;
 }
 .forgot h6 a:hover{
     color:#ff3366;
@@ -571,7 +603,7 @@ span.sin-color {
   position: relative;
   font-size: 0.95em;
   font-weight: normal;
-  color:#efe8e8;
+  color:#070707;
   padding: 0em 0.5em 0em 2.5em;
 }
 .checkbox i {
@@ -582,7 +614,7 @@ span.sin-color {
     width: 18px;
     height: 18px;
     outline: none;
-    background: #fff;
+    background: #0e0e0e;
     border: 1px solid #6A67CE;
 }
 .checkbox input + i:after {
@@ -626,12 +658,12 @@ span.sin-color {
 .copyright p {
   font-size: 16px;
   font-weight: 400;
-  color: #fff;
+  color: #080808;
 }
 .copyright p a{
   font-size: 16px;
   font-weight: 400;
-  color: #fff;
+  color: #0d0d0d;
 }
 .copyright p a:hover{
 	color:#ff3366;
@@ -642,7 +674,7 @@ span.sin-color {
 
 @media(max-width:1440px){
 .header-main {
-    width: 33%;	
+    width: 33%;
 }
 }
 @media(max-width:1366px){
@@ -653,7 +685,7 @@ span.sin-color {
 @media(max-width:1280px){
 .header-main {
     width: 38%;
-}	
+}
 }
 @media(max-width:1024px){
 .header-main {
@@ -661,7 +693,7 @@ span.sin-color {
 }
 .header-main h1 {
     font-size: 63px;
-}	
+}
 }
 @media(max-width:991px){
 .header-main {
@@ -817,7 +849,7 @@ span.sin-color {
     width: 85%;
 }
 .header-main {
-    padding: 25px 0px 15px 0px;	
+    padding: 25px 0px 15px 0px;
 }
 .header-left-bottom input[type="text"] {
     padding: 12px 13px 15px 44px;

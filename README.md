@@ -33,3 +33,6 @@ npm run build
 ```sh
 npm run lint
 ```
+cd vào folder HUBSG vì nó chứa folder node module. Vue framework hay react framework chỉ hoạt động khi nó tìm thấy folder node module
+
+sửa lại code như trước t gửi m
